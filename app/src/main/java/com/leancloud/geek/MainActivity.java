@@ -144,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
                 AVObject Arsenal=new AVObject("Team");//争四狂魔阿森纳
                 Arsenal.put("zipCode","N7 7AJ");
                 Arsenal.put("name","阿森纳");
-                Arsenal.put("nickName","抢手");
+                Arsenal.put("nickName","枪手");
                 Arsenal.put("rank",6);
 
                 AVObject Chelsea=new AVObject("Team");//有钱任性魔力鸟
@@ -153,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
                 Chelsea.put("nickName", "蓝军");
                 Chelsea.put("rank",1);
 
-                AVObject Hotspur=new AVObject("Team");//抢手宿敌大热刺
+                AVObject Hotspur=new AVObject("Team");//枪手宿敌大热刺
                 Hotspur.put("zipCode","N17 0AP");
                 Hotspur.put("name","托特纳姆热刺");
                 Hotspur.put("nickName", "刺");
@@ -184,7 +184,7 @@ public class MainActivity extends ActionBarActivity {
 
         //Query MU by Id
         Button btn_queryById=(Button)findViewById(R.id.btn_queryById);
-        final String MU_id="";
+        final String MU_id="54c63936e4b068d1ee4353fe";//运行前请输入
         btn_queryById.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,6 +199,26 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        //Find MU by name
+        Button btn_findByName=(Button)findViewById(R.id.btn_findByName);
+        btn_findByName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AVQuery<AVObject> mu_query_by_name=new  AVQuery<AVObject>("Team");
+                mu_query_by_name.whereEqualTo("name","曼联");
+                mu_query_by_name.findInBackground(new FindCallback<AVObject>() {
+                    @Override
+                    public void done(List<AVObject> avObjects, AVException e) {
+                        if(avObjects.size()> 0)
+                        {
+                           AVObject mu_findByName=  avObjects.get(0);
+                            Toast.makeText(getApplicationContext(), mu_findByName.getString("nickName")+"被找到！",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
         //Query MU by CQL
         Button btn_cql=(Button)findViewById(R.id.btn_cql);
